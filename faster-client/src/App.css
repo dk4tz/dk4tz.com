@@ -1,0 +1,19 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+html,
+body,
+#root,
+.App {
+  @apply m-0 h-full w-full p-0;
+}
+
+body {
+  @apply bg-darkBackground font-sans text-darkText antialiased;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

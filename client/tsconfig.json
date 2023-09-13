@@ -16,5 +16,10 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "src/types.ts"]
+  "include": [
+    "src",
+    "src/types.ts",
+    "../faster-client/src/pages copy",
+    "../faster-client/src/components copy"
+  ]
 }
