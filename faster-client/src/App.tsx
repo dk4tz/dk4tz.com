@@ -6,7 +6,6 @@ import './App.css';
 
 function App() {
   console.log('re-rendering App');
-
   return (
     <ThreeRouter history={history}>
       <div className='App'>

@@ -10,7 +10,7 @@ body,
 }
 
 body {
-  @apply bg-darkBackground font-sans text-darkText antialiased;
+  @apply bg-white font-sans text-darkText antialiased;
 }
 
 code {
