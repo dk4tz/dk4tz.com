@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as THREE from 'three';
-import React, { useRef } from 'react';
-import { Decal, useGLTF, useTexture } from '@react-three/drei';
+import { useGLTF } from '@react-three/drei';
+import { useTexture } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
 
 type HeroGLTF = GLTF & {
@@ -26,9 +25,14 @@ type HeroGLTF = GLTF & {
 };
 
 export const Hero = (props: JSX.IntrinsicElements['group']) => {
-  const meshRef = useRef<THREE.Mesh>(null!);
-  const { nodes, materials } = useGLTF('/k4t.glb') as HeroGLTF;
+  const { nodes } = useGLTF('/k4t.glb') as HeroGLTF;
   const [github] = useTexture(['/github.png']);
+
+  const material = new THREE.MeshStandardMaterial({
+    color: 'black',
+    roughness: 0,
+    metalness: 0.5,
+  });
 
   return (
     <group {...props} dispose={null}>
@@ -38,27 +42,14 @@ export const Hero = (props: JSX.IntrinsicElements['group']) => {
             index > 0 && (
               <mesh
                 key={key}
-                ref={key === 'Object_2' ? meshRef : undefined}
                 castShadow
                 receiveShadow
                 geometry={(nodes as any)[key].geometry}
-                material={materials.model}
+                material={material}
               />
             )
         )}
       </group>
-      {/* {meshRef.current && (
-        <Decal
-          mesh={meshRef.current}
-          position={[0.2, 0.2, 0.2]}
-          rotation={[0, 0, 0]}
-          scale={[0.25, 0.25, 0.25]}
-          map={github}
-          map-anisotropy={16}
-        />
-      )} */}
     </group>
   );
 };
-
-useGLTF.preload('/k4t.glb');
