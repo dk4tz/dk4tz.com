@@ -1,12 +1,6 @@
 import { Suspense, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
-import {
-  OrbitControls,
-  Html,
-  Bounds,
-  SpotLight,
-  useHelper,
-} from '@react-three/drei';
+import { OrbitControls, Html, Bounds, useHelper } from '@react-three/drei';
 import { PuffLoader } from 'react-spinners';
 import { Hero } from './Hero';
 import * as THREE from 'three';
@@ -30,8 +24,8 @@ export const Portrait = () => {
             />
           </Html>
         }>
+        <Lights />
         <Bounds fit clip observe margin={1} damping={2}>
-          <Lights />
           <Hero />
         </Bounds>
         <OrbitControls makeDefault enablePan={false} />
@@ -43,8 +37,20 @@ export const Portrait = () => {
 function Lights() {
   const light = useRef<THREE.SpotLight>(new THREE.SpotLight());
   useHelper(light, THREE.SpotLightHelper, 'cyan');
-
   return (
-    <SpotLight ref={light} intensity={0.5} position={[5, 2, 0]} castShadow />
+    <>
+      <ambientLight color='#888888' intensity={0.5} />
+      <directionalLight color='#ffffff' intensity={1} position={[-1, 2, 4]} />
+
+      {/* <spotLight
+        ref={light}
+        intensity={0.5}
+        position={[5, 2, 0]}
+        castShadow
+        shadow-mapSize-width={1024}
+        shadow-mapSize-height={1024}
+      />
+      <ambientLight intensity={0.25} /> */}
+    </>
   );
 }

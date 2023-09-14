@@ -1,7 +1,15 @@
 import * as THREE from 'three';
-import { useGLTF } from '@react-three/drei';
+import {
+  Decal,
+  Dodecahedron,
+  PerspectiveCamera,
+  RenderTexture,
+  useGLTF,
+  Text,
+} from '@react-three/drei';
 import { useTexture } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
+import { useRef } from 'react';
 
 type HeroGLTF = GLTF & {
   nodes: {
@@ -26,7 +34,8 @@ type HeroGLTF = GLTF & {
 
 export const Hero = (props: JSX.IntrinsicElements['group']) => {
   const { nodes } = useGLTF('/k4t.glb') as HeroGLTF;
-  const [github] = useTexture(['/github.png']);
+  // const [github] = useTexture(['/github.png']);
+  // const textRef = useRef();
 
   const material = new THREE.MeshStandardMaterial({
     color: 'black',
@@ -36,7 +45,12 @@ export const Hero = (props: JSX.IntrinsicElements['group']) => {
 
   return (
     <group {...props} dispose={null}>
-      <group name='cat' rotation={[-2.354, 1.212, 2.42]}>
+      <group
+        name='hero'
+        position={[0, 0, 0]}
+        rotation={[-2.354, 1.212, 2.42]}
+        castShadow
+        receiveShadow>
         {Object.keys(nodes).map(
           (key, index) =>
             index > 0 && (
