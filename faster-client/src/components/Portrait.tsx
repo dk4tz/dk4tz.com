@@ -35,12 +35,17 @@ export const Portrait = () => {
 };
 
 function Lights() {
-  const light = useRef<THREE.SpotLight>(new THREE.SpotLight());
-  useHelper(light, THREE.SpotLightHelper, 'cyan');
+  const light = useRef<THREE.DirectionalLight>(new THREE.DirectionalLight());
+  useHelper(light, THREE.SpotLightHelper, 'red');
   return (
     <>
       <ambientLight color='#888888' intensity={0.5} />
-      <directionalLight color='#ffffff' intensity={1} position={[-1, 2, 4]} />
+      <directionalLight
+        ref={light}
+        color='#ffffff'
+        intensity={2}
+        position={[-1, 2, 4]}
+      />
 
       {/* <spotLight
         ref={light}

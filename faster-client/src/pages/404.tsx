@@ -1,7 +1,7 @@
 export const NoPage = () => {
   return (
     <div>
-      <h1>404 - Page not found</h1>
+      <h1>This is not the page you're looking for.</h1>
     </div>
   );
 };

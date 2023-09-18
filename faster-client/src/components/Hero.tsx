@@ -1,15 +1,6 @@
 import * as THREE from 'three';
-import {
-  Decal,
-  Dodecahedron,
-  PerspectiveCamera,
-  RenderTexture,
-  useGLTF,
-  Text,
-} from '@react-three/drei';
-import { useTexture } from '@react-three/drei';
+import { useGLTF } from '@react-three/drei';
 import { GLTF } from 'three-stdlib';
-import { useRef } from 'react';
 
 type HeroGLTF = GLTF & {
   nodes: {
@@ -51,18 +42,21 @@ export const Hero = (props: JSX.IntrinsicElements['group']) => {
         rotation={[-2.354, 1.212, 2.42]}
         castShadow
         receiveShadow>
-        {Object.keys(nodes).map(
-          (key, index) =>
-            index > 0 && (
+        {Object.keys(nodes).map((key, index) => {
+          if (key in nodes && index > 0) {
+            return (
               <mesh
                 key={key}
                 castShadow
                 receiveShadow
-                geometry={(nodes as any)[key].geometry}
+                geometry={nodes[key as keyof HeroGLTF['nodes']].geometry}
                 material={material}
               />
-            )
-        )}
+            );
+          }
+          console.log('missing key: ', key);
+          return null;
+        })}
       </group>
     </group>
   );
