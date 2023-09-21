@@ -1,16 +1,9 @@
 # dependencies
 /client/node_modules
+/faster-client/node_modules
 
 # production
 /client/build
+/faster-client/build
 
-# env files
-/client/.DS_Store
-/client/.env.local
-/client/.env.development.local
-/client/.env.test.local
-/client/.env.production.local
-
-/client/npm-debug.log*
-/client/yarn-debug.log*
-/client/yarn-error.log*
+/particles-app
