@@ -1,6 +1,6 @@
 import { Suspense, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Html, Bounds, useHelper } from '@react-three/drei';
+import { OrbitControls, Html, Bounds } from '@react-three/drei';
 import { PuffLoader } from 'react-spinners';
 import * as THREE from 'three';
 import { Hero } from './Hero';
@@ -25,8 +25,6 @@ export const Portrait = () => {
 const Lights = () => {
   // Directional light with shadows
   const light = useRef<THREE.DirectionalLight>(new THREE.DirectionalLight());
-  useHelper(light, THREE.SpotLightHelper, 'red');
-
   return (
     <>
       <ambientLight color='#888888' intensity={0.5} />
