@@ -1,12 +1,6 @@
 import { Suspense, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
-import {
-  OrbitControls,
-  Html,
-  Bounds,
-  useHelper,
-  SoftShadows,
-} from '@react-three/drei';
+import { OrbitControls, Html, Bounds, useHelper } from '@react-three/drei';
 import { PuffLoader } from 'react-spinners';
 import * as THREE from 'three';
 import { Hero } from './Hero';
@@ -17,7 +11,6 @@ export const Portrait = () => {
       shadows
       camera={{ position: [0, 0, 150], fov: 55 }}
       aria-label='hero-sculpture'>
-      <SoftShadows />
       <Suspense fallback={<Loader />}>
         <Lights />
         <Bounds fit clip observe margin={1} damping={2}>
