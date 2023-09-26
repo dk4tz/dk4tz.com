@@ -4,6 +4,6 @@
 
 # production
 /client/build
-/faster-client/build
+/faster-client/dist
 
 /particles-app

@@ -9,7 +9,9 @@ type HeroGLTF = GLTF & {
 };
 
 export const Hero = () => {
-  const { nodes } = useGLTF('/k4t.glb') as HeroGLTF;
+  const heroPath: string = `${import.meta.env.BASE_URL}models/k4t.glb`;
+  console.log(heroPath);
+  const { nodes } = useGLTF(heroPath) as HeroGLTF;
 
   const material = new THREE.MeshStandardMaterial({
     color: 'black',

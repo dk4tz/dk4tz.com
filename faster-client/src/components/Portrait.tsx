@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Html, Bounds } from '@react-three/drei';
 import { PuffLoader } from 'react-spinners';
 import * as THREE from 'three';
+
 import { Hero } from './Hero';
 
 export const Portrait = () => {
