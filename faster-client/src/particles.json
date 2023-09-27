@@ -24,7 +24,7 @@
       "value": "#ff0000",
       "animation": {
         "enable": true,
-        "speed": 20,
+        "speed": 50,
         "sync": true
       }
     },
@@ -32,7 +32,7 @@
       "blink": true,
       "color": "random",
       "consent": false,
-      "distance": 30,
+      "distance": 150,
       "enable": true,
       "opacity": 0.3,
       "width": 1
@@ -50,7 +50,7 @@
       "enable": true,
       "outMode": "bounce",
       "random": true,
-      "speed": 0.5,
+      "speed": 10,
       "straight": false
     },
     "number": {
@@ -72,13 +72,13 @@
       "value": 1
     },
     "shape": {
-      "type": "circle"
+      "type": "polygon"
     },
     "size": {
       "animation": {
         "enable": false,
         "minimumValue": 0.1,
-        "speed": 50,
+        "speed": 4,
         "sync": false
       },
       "random": true,
