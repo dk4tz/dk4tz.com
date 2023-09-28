@@ -5,6 +5,7 @@ import { ISourceOptions } from 'tsparticles-engine';
 import type { Engine } from 'tsparticles-engine';
 
 import { Portrait } from '../components/Portrait';
+import { Music } from '../components/Music';
 import particlesOptions from '../particles.json';
 
 export const HomePage = () => {
@@ -17,6 +18,7 @@ export const HomePage = () => {
   return (
     <>
       <Portrait />
+      <Music />
       <Particles
         className='particles'
         options={particlesOptions as ISourceOptions}
