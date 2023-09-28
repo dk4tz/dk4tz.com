@@ -1,6 +1,5 @@
-import { Suspense, useCallback, useRef, useState } from 'react';
+import { Suspense, useCallback, useState } from 'react';
 
-import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
 import { Bounds, Html, OrbitControls } from '@react-three/drei';
 import Particles from 'react-particles';
@@ -10,12 +9,36 @@ import { loadFull } from 'tsparticles';
 import type { Engine } from 'tsparticles-engine';
 import { ISourceOptions } from 'tsparticles-engine';
 
-import { BopButton } from './BopButton';
 import { Hero } from './Hero';
+import { Lights } from './Lights';
+import { BopButton } from './BopButton';
 import particlesOptions from '../particles.json';
 
 export const Portrait = () => {
   const [isBopping, setIsBopping] = useState(false);
+
+  // Check if the device is mobile
+  const isMobile = window.innerWidth <= 768;
+  console.log('Optimized for; ', isMobile ? 'mobile' : 'desktop');
+
+  // Modify the options object for mobile devices
+  const options = isMobile
+    ? {
+        ...particlesOptions,
+        particles: {
+          ...particlesOptions.particles,
+          number: {
+            ...particlesOptions.particles.number,
+            value: 250, // Reduce the number of particles
+          },
+          lineLinked: {
+            ...particlesOptions.particles.lineLinked,
+            distance: 100, // Reduce the line link distance
+          },
+        },
+      }
+    : particlesOptions;
+
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
   }, []);
@@ -24,7 +47,7 @@ export const Portrait = () => {
     <>
       <Particles
         className='particles'
-        options={particlesOptions as ISourceOptions}
+        options={options as ISourceOptions}
         init={particlesInit}
       />
       <Canvas
@@ -44,22 +67,33 @@ export const Portrait = () => {
   );
 };
 
-const Lights = () => {
-  // Directional light with shadows
-  const light = useRef<THREE.DirectionalLight>(new THREE.DirectionalLight());
-  return (
-    <>
-      <ambientLight color='#888888' intensity={0.5} />
-      <directionalLight
-        ref={light}
-        color='#ffffff'
-        intensity={4}
-        position={[-1, 2, 4]}
-        castShadow
-      />
-    </>
-  );
-};
+// const Lights = () => {
+//   // Directional light with shadows
+//   const light = useRef<THREE.DirectionalLight>(new THREE.DirectionalLight());
+//   const spotLight = useRef<THREE.SpotLight>(new THREE.SpotLight());
+
+//   return (
+//     <>
+//       <ambientLight color='#888888' intensity={0.1} />
+//       <directionalLight
+//         ref={light}
+//         color='#ffffff'
+//         intensity={1}
+//         position={[-1, 2, 4]}
+//         castShadow
+//       />
+//       <spotLight
+//         ref={spotLight}
+//         color='#ffffff'
+//         intensity={5}
+//         position={[0, 5, 10]}
+//         angle={Math.PI / 8}
+//         penumbra={0.2}
+//         castShadow
+//       />
+//     </>
+//   );
+// };
 
 const Loader = () => (
   <Html className='flex h-full w-full items-center justify-center'>
