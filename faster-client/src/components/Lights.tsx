@@ -1,6 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import * as THREE from 'three';
-import { useFrame } from '@react-three/fiber';
 
 export const Lights = () => {
   // Directional light with shadows
@@ -15,16 +14,16 @@ export const Lights = () => {
         ref={light}
         color='#ffffff'
         intensity={5}
-        position={[-1, 2, 4]}
+        position={[0, 5, 0]}
         castShadow
       />
       <spotLight
         ref={spotLight}
         color='#ffffff'
-        intensity={50}
-        position={[0, 5, 10]}
+        intensity={25}
+        position={[-1, 5, 0]}
         angle={Math.PI / 8}
-        penumbra={0.2}
+        penumbra={1}
         castShadow
       />
     </>

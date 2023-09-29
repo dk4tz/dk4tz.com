@@ -43,7 +43,7 @@ export const BopButton: React.FC<BopButtonProps> = ({
 
   return (
     <button
-      className='fixed bottom-4 right-4 rounded-full bg-gray-400 bg-opacity-10 p-2 hover:bg-opacity-40'
+      className='fixed bottom-4 right-4 h-[5vh] w-[5vh] rounded bg-gray-400 bg-opacity-10 p-2 hover:bg-opacity-40'
       onClick={handleClick}>
       {buttonContent}
     </button>

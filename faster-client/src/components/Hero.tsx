@@ -20,11 +20,14 @@ export const Hero = ({ rotate }: { rotate: boolean }) => {
 
   const groupRef = useRef<THREE.Group | null>(null);
 
-  useFrame(() => {
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
     if (rotate && groupRef.current) {
       groupRef.current.rotation.x += 0.01;
       groupRef.current.rotation.y -= 0.01;
       groupRef.current.rotation.z += 0.001;
+    } else if (groupRef.current) {
+      groupRef.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
     }
   });
 
@@ -48,3 +51,5 @@ export const Hero = ({ rotate }: { rotate: boolean }) => {
     </group>
   );
 };
+
+useGLTF.preload(`${import.meta.env.BASE_URL}models/k4t.glb`);
