@@ -10,7 +10,6 @@ import { BopButton } from './BopButton';
 
 export const Portrait = () => {
   const [isBopping, setIsBopping] = useState(false);
-
   return (
     <>
       <Suspense fallback={<Loader />}>

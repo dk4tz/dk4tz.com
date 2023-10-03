@@ -15,7 +15,7 @@ export const Hero = ({ rotate }: { rotate: boolean }) => {
   const { nodes } = useGLTF(heroPath) as HeroGLTF;
 
   const material = new THREE.MeshStandardMaterial({
-    color: '#000',
+    color: '#000000',
   });
 
   const groupRef = useRef<THREE.Group | null>(null);
@@ -27,7 +27,7 @@ export const Hero = ({ rotate }: { rotate: boolean }) => {
       groupRef.current.rotation.y -= 0.01;
       groupRef.current.rotation.z += 0.001;
     } else if (groupRef.current) {
-      groupRef.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
+      groupRef.current.position.y = Math.sin(t) / 10;
     }
   });
 
