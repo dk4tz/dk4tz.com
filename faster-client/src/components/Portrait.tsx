@@ -23,7 +23,12 @@ export const Portrait = () => {
             <Hero rotate={isBopping} />
             <ContactShadows position={[0, -2.4, 0]} blur={2} />
           </Bounds>
-          <OrbitControls makeDefault enableZoom={false} enablePan={false} />
+          <OrbitControls
+            makeDefault
+            enableZoom={false}
+            enablePan={false}
+            maxPolarAngle={Math.PI / 2}
+          />
         </Canvas>
         <BopButton isBopping={isBopping} toggleBop={setIsBopping} />
       </Suspense>
