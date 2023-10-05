@@ -1,10 +1,10 @@
 import { useRef } from 'react';
 import * as THREE from 'three';
 
-export const Lights = () => {
-  // Directional light with shadows
+export const Lights: React.FC = () => {
   const light = useRef<THREE.DirectionalLight>(new THREE.DirectionalLight());
   const spotLight = useRef<THREE.SpotLight>(new THREE.SpotLight());
+
   spotLight.current.target.position.set(0, 0, 0);
 
   return (

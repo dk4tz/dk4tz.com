@@ -10,8 +10,12 @@ type HeroGLTF = GLTF & {
   };
 };
 
-export const Hero = ({ rotate }: { rotate: boolean }) => {
-  const heroPath: string = `${import.meta.env.BASE_URL}models/k4t.glb`;
+interface HeroProps {
+  bop: boolean;
+}
+
+export const Hero: React.FC<HeroProps> = ({ bop }) => {
+  const heroPath = `${import.meta.env.BASE_URL}models/k4t.glb`;
   const { nodes } = useGLTF(heroPath) as HeroGLTF;
 
   const material = new THREE.MeshStandardMaterial({
@@ -22,7 +26,7 @@ export const Hero = ({ rotate }: { rotate: boolean }) => {
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
-    if (rotate && groupRef.current) {
+    if (bop && groupRef.current) {
       groupRef.current.rotation.x += 0.01;
       groupRef.current.rotation.y -= 0.01;
       groupRef.current.rotation.z += 0.001;

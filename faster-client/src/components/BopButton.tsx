@@ -15,7 +15,7 @@ export const BopButton: React.FC<BopButtonProps> = ({
   isBopping,
   toggleBop,
 }) => {
-  const musicPath: string = `${import.meta.env.BASE_URL}music/zhu_japan.mp3`;
+  const musicPath = `${import.meta.env.BASE_URL}music/zhu_japan.mp3`;
   const audio = useRef(new Audio(musicPath)).current;
 
   useEffect(() => {
