@@ -4,7 +4,7 @@ import * as THREE from 'three';
 export const Lights: React.FC = () => {
   const light = useRef<THREE.DirectionalLight>(new THREE.DirectionalLight());
   const spotLight = useRef<THREE.SpotLight>(new THREE.SpotLight());
-
+  
   spotLight.current.target.position.set(0, 0, 0);
 
   return (
@@ -13,14 +13,14 @@ export const Lights: React.FC = () => {
       <directionalLight
         ref={light}
         color='#ffffff'
-        intensity={5}
+        intensity={.8}
         position={[0, 5, 0]}
         castShadow
       />
       <spotLight
         ref={spotLight}
         color='#ffffff'
-        intensity={25}
+        intensity={1}
         position={[-1, 5, 0]}
         angle={Math.PI / 8}
         penumbra={1}

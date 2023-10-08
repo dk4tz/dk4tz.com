@@ -1,6 +1,6 @@
 import React, { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Bounds, ContactShadows, OrbitControls } from '@react-three/drei';
+import { Bounds, ContactShadows, Decal, OrbitControls, useTexture } from '@react-three/drei';
 
 import { Hero } from './Hero';
 import { Lights } from './Lights';
@@ -10,7 +10,6 @@ import { Loader } from './Loader';
 
 export const Portrait: React.FC = () => {
   const [isBopping, setIsBopping] = useState(false);
-
   return (
     <Suspense fallback={<Loader />}>
       <Canvas
