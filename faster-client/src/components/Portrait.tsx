@@ -1,6 +1,6 @@
 import React, { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Bounds, ContactShadows, Decal, OrbitControls, useTexture } from '@react-three/drei';
+import { Bounds, ContactShadows, OrbitControls } from '@react-three/drei';
 
 import { Hero } from './Hero';
 import { Lights } from './Lights';
@@ -24,7 +24,7 @@ export const Portrait: React.FC = () => {
         </Bounds>
         <OrbitControls
           makeDefault
-          enableZoom={false}
+          enableZoom={true}
           enablePan={false}
           maxPolarAngle={Math.PI / 2}
         />
