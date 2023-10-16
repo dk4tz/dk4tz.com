@@ -10,7 +10,7 @@ import { Loader } from './Loader';
 import { ChatWindow } from './ChatWindow';
 import { ChatButton } from './ChatButton';
 
-interface ChatMessage {
+export interface ChatMessage {
   id: string;
   type: 'user' | 'bot';
   content: string;
@@ -73,23 +73,20 @@ export const Portrait: React.FC = () => {
         />
       </Canvas>
 
-      {/* Input field for chat, displayed only if isChatting is true. 
-           It is positioned outside the 3D canvas for ease of interaction. */}
+      {/* Input field for chat, displayed only if isChatting is true. */}
       {isChatting && (
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '10px',
-            left: '10px',
-            zIndex: 1000,
-          }}>
+        <div className='z-1000 absolute bottom-10 left-1/2 flex -translate-x-1/2 transform items-center'>
           <input
-            style={{ marginRight: '10px' }}
+            className='mr-2 rounded-l bg-gray-300 px-2 py-1'
             placeholder='Type a message...'
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          <button onClick={handleSendMessage}>Send</button>
+          <button
+            className='rounded-r bg-blue-500 px-2 py-1 text-white'
+            onClick={handleSendMessage}>
+            Send
+          </button>
         </div>
       )}
 
