@@ -141,7 +141,7 @@ export const Hero: React.FC<HeroProps> = ({ bop }) => {
 								fontSize={4}
 								color='white'
 							>
-								david katz codes
+								almost perfcet
 							</Text>
 						</RenderTexture>
 					</meshStandardMaterial>
