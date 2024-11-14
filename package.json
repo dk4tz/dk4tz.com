@@ -1,9 +1,9 @@
 {
-	"name": "faster-client",
+	"name": "David Hariton Katz",
 	"private": false,
 	"version": "0.0.0",
 	"type": "module",
-	"homepage": "http://dk4tz.github.io/portrait/",
+	"homepage": "http://dk4tz.github.io/me/",
 	"scripts": {
 		"dev": "bunx --bun vite",
 		"build": "tsc && vite build",
