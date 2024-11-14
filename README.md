@@ -18,4 +18,4 @@ Here is the tech stack I'm using:
 
 Hosted with [GitHub Pages](https://docs.github.com/en/pages).
 
-Special thanks to the [Wikimedia Commons](https://commons.wikimedia.org/wiki/Main_Page) for the icons 🙏
+Special thanks to the [Wikimedia Commons](https://commons.wikimedia.org/wiki/Main_Page) for the icons and [Zhu](https://www.youtube.com/watch?v=XHNHq1mC0VQ) for the music 🙏
