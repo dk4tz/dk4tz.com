@@ -7,7 +7,7 @@ import {
 	useGLTF
 } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
@@ -35,7 +35,7 @@ export const Hero: React.FC<HeroProps> = ({ bop }) => {
 
 	// State management
 	const [decalColor, setDecalColor] = useState('#000000');
-	const [hovered, setHovered] = useState(false);
+	// const [hovered, setHovered] = useState(false);
 
 	// Context hooks
 	const { gl } = useThree();
@@ -43,19 +43,19 @@ export const Hero: React.FC<HeroProps> = ({ bop }) => {
 	const { nodes } = useGLTF(heroPath) as HeroGLTF;
 
 	// Event handlers
-	const handlePointerOver = useCallback(() => {
-		setHovered(true);
-		gl.domElement.style.cursor = 'pointer';
-	}, [gl]);
+	// const handlePointerOver = useCallback(() => {
+	// 	setHovered(true);
+	// 	gl.domElement.style.cursor = 'pointer';
+	// }, [gl]);
 
-	const handlePointerOut = useCallback(() => {
-		setHovered(false);
-		gl.domElement.style.cursor = 'auto';
-	}, [gl]);
+	// const handlePointerOut = useCallback(() => {
+	// 	setHovered(false);
+	// 	gl.domElement.style.cursor = 'auto';
+	// }, [gl]);
 
-	const handleDecalClick = useCallback(() => {
-		window.open('https://github.com/dk4tz', '_blank');
-	}, []);
+	// const handleDecalClick = useCallback(() => {
+	// 	window.open('https://github.com/dk4tz', '_blank');
+	// }, []);
 
 	// Memoized computations
 	const material = useMemo(
@@ -117,15 +117,15 @@ export const Hero: React.FC<HeroProps> = ({ bop }) => {
 					position={[-0.5, -0.75, -0.25]}
 					rotation={[-2.25, 1.7, 2.25]}
 					scale={[1, 0.3, 1.2]}
-					onClick={handleDecalClick}
-					onPointerOver={handlePointerOver}
-					onPointerOut={handlePointerOut}
+					// onClick={handleDecalClick}
+					// onPointerOver={handlePointerOver}
+					// onPointerOut={handlePointerOut}
 				>
 					<meshStandardMaterial
 						roughness={0.6}
 						transparent
 						opacity={1}
-						emissive={hovered ? '#333333' : '#000000'}
+						emissive={'#000000'}
 					>
 						<RenderTexture attach='map' anisotropy={16}>
 							<PerspectiveCamera
@@ -141,7 +141,7 @@ export const Hero: React.FC<HeroProps> = ({ bop }) => {
 								fontSize={4}
 								color='white'
 							>
-								almost perfcet
+								{bop ? 'alors on danse' : 'please spin me'}
 							</Text>
 						</RenderTexture>
 					</meshStandardMaterial>

@@ -6,14 +6,5 @@ html,
 body,
 #root,
 .App {
-  @apply m-0 h-full w-full p-0;
-}
-
-body {
-  @apply bg-white font-sans text-darkText antialiased;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+	@apply m-0 h-full w-full p-0;
 }

@@ -1,9 +1,8 @@
-import { HomePage } from './pages/HomePage';
 import './App.css';
+import { HomeScreen } from './screens/HomeScreen';
 
 const App = () => {
-  console.log('Rendering home page...');
-  return <HomePage />;
+	return <HomeScreen />;
 };
 
 export default App;

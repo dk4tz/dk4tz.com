@@ -39,14 +39,12 @@ export const BopButton: React.FC<BopButtonProps> = ({
 		toggleBop((prevBop) => !prevBop);
 	};
 
-	const buttonContent = isBopping ? '⏸️' : '▶️';
-
 	return (
 		<button
-			className='fixed bottom-4 right-4 h-[5vh] w-[5vh] rounded bg-gray-400 bg-opacity-10 p-2 hover:bg-opacity-40'
+			className='fixed bottom-4 right-4 h-[5vh] w-[5vh] rounded bg-gray-500 bg-opacity-10 p-2 hover:bg-opacity-40'
 			onClick={handleClick}
 		>
-			{buttonContent}
+			{isBopping ? '⏸️' : '🎧'}
 		</button>
 	);
 };
