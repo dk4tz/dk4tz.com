@@ -94,9 +94,9 @@ const IntroScrollCard: React.FC = () => {
 	return (
 		<ScrollCard title={"Hi! I'm David 👋"}>
 			<p className=' text-white'>
-				Also known as DKatz. I am a professional technical architect and
-				application developer. Thanks for checking out my little corner
-				of the internet.
+				Also known as DKatz. I'm an expert software architect with a
+				knack for solving business problems. Thanks for checking out my
+				little corner of the internet.
 			</p>
 		</ScrollCard>
 	);
