@@ -4,58 +4,84 @@ import React, { useEffect, useState } from 'react';
 
 import { Icon } from '../components/Icon';
 import { ScrollCard } from '../components/ScrollCard';
+import { ScrollChevron } from '../components/ScrollChevron';
 import { ScrollPage } from '../components/ScrollPage';
-import { VibeyDownChevron } from '../components/VibeyDownChevron';
 
 export const HomeOverlay: React.FC = () => {
 	const scroll = useScroll();
-	const [showChevron, setShowChevron] = useState(false); // Add state for chevron visibility
-
-	const [opacityFirstPage, setOpacityFirstPage] = useState(1);
-	const [opacitySecondPage, setOpacitySecondPage] = useState(1);
-	const [opacityThirdPage, setOpacityThirdPage] = useState(1);
-	const [opacityFourthPage, setOpacityFourthPage] = useState(1);
+	const [showChevron, setShowChevron] = useState(false);
+	const [pageOpacities, setPageOpacities] = useState({
+		first: 1,
+		second: 1,
+		third: 1,
+		fourth: 1
+	});
 
 	useEffect(() => {
-		// Set timeout to show chevron after 1000ms
-		const timer = setTimeout(() => {
-			setShowChevron(true);
-		}, 4000);
-
+		const timer = setTimeout(() => setShowChevron(true), 4000);
 		return () => clearTimeout(timer);
 	}, []);
 
 	useFrame(() => {
-		setOpacityFirstPage(1 - scroll.range(0, 1 / 10));
-		setOpacitySecondPage(scroll.curve(1 / 8, 1 / 4));
-		setOpacityThirdPage(scroll.curve(4 / 10, 1 / 4));
-		setOpacityFourthPage(scroll.range(3 / 4, 1 / 4));
+		setPageOpacities({
+			first: 1 - scroll.range(0, 0.1),
+			second: scroll.curve(0.125, 0.25),
+			third: scroll.curve(0.4, 0.25),
+			fourth: scroll.range(0.75, 0.25)
+		});
 	});
+
+	const resetChevronVisibility = () => {
+		setShowChevron(false);
+		setTimeout(() => setShowChevron(true), 4000);
+	};
+
+	const chevron_opacity = `mt-auto transition-opacity duration-1000 ease-in ${
+		showChevron ? 'opacity-100' : 'opacity-0'
+	}`;
 
 	return (
 		<Scroll html>
 			<div className='w-screen'>
 				<ScrollPage
 					alignment={'items-center'}
-					opacity={opacityFirstPage}
+					opacity={pageOpacities.first}
 				>
-					<div
-						className={`mt-auto transition-opacity duration-1000 ease-in ${
-							showChevron ? 'opacity-100' : 'opacity-0'
-						}`}
-					>
-						<VibeyDownChevron />
+					<ScrollChevron
+						targetOffset={0.2}
+						onClick={resetChevronVisibility}
+						className={chevron_opacity}
+					/>
+				</ScrollPage>
+				<ScrollPage
+					alignment={'items-start'}
+					opacity={pageOpacities.second}
+				>
+					<IntroScrollCard />
+					<div className={'mt-4 flex w-full justify-center sm:w-1/3'}>
+						<ScrollChevron
+							targetOffset={0.48}
+							onClick={resetChevronVisibility}
+							className={chevron_opacity}
+						/>
 					</div>
 				</ScrollPage>
-				<ScrollPage opacity={opacitySecondPage}>
-					<IntroScrollCard />
-				</ScrollPage>
-				<ScrollPage alignment={'items-end'} opacity={opacityThirdPage}>
+				<ScrollPage
+					alignment={'items-end'}
+					opacity={pageOpacities.third}
+				>
 					<ToolkitScrollCard />
+					<div className={'mt-4 flex w-full justify-center sm:w-1/3'}>
+						<ScrollChevron
+							targetOffset={1}
+							onClick={resetChevronVisibility}
+							className={chevron_opacity}
+						/>
+					</div>
 				</ScrollPage>
 				<ScrollPage
 					alignment={'items-center'}
-					opacity={opacityFourthPage}
+					opacity={pageOpacities.fourth}
 				>
 					<ContactScrollCard />
 				</ScrollPage>

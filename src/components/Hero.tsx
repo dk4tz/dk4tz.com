@@ -141,7 +141,7 @@ export const Hero: React.FC<HeroProps> = ({ bop }) => {
 								fontSize={4}
 								color='white'
 							>
-								{bop ? 'alors on danse' : 'please spin me'}
+								{bop ? 'alors on danse' : 'david hariton katz'}
 							</Text>
 						</RenderTexture>
 					</meshStandardMaterial>

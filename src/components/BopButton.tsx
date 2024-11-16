@@ -34,14 +34,14 @@ export const BopButton: React.FC<BopButtonProps> = ({
 		};
 	}, [isBopping, audio]);
 
-	const handleClick: MouseEventHandler<HTMLButtonElement> = (event) => {
-		event.preventDefault();
+	const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+		e.preventDefault();
 		toggleBop((prevBop) => !prevBop);
 	};
 
 	return (
 		<button
-			className='fixed bottom-4 right-4 h-[5vh] w-[5vh] rounded bg-gray-500 bg-opacity-10 p-2 hover:bg-opacity-40'
+			className='fixed bottom-4 right-4 flex h-[5vh] w-[5vh] items-center justify-center rounded bg-gray-500 bg-opacity-10 p-2 hover:bg-opacity-40'
 			onClick={handleClick}
 		>
 			{isBopping ? '⏸️' : '🎧'}

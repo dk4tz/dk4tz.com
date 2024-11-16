@@ -11,7 +11,7 @@ export const ScrollPage: React.FC<ScrollPageProps> = ({
 }) => {
 	return (
 		<section
-			className={`flex h-screen flex-col justify-start p-10 ${alignment}`}
+			className={`flex h-[100dvh] flex-col justify-start p-10 ${alignment}`}
 			style={{ opacity }}
 		>
 			{children}

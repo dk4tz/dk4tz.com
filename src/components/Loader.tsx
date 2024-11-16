@@ -13,7 +13,7 @@ export const Loader: React.FC = () => {
 	}, []);
 
 	return (
-		<div className='flex min-h-screen flex-col items-center justify-center align-middle'>
+		<div className='flex h-[100dvh] flex-col items-center justify-center align-middle'>
 			<PacmanLoader color='yellow' />
 			{showMessage && (
 				<div className='mt-4 text-center text-black'>
