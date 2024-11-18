@@ -10,6 +10,7 @@ interface PortraitProps {
 }
 
 export const Portrait: React.FC<PortraitProps> = ({ isBopping }) => {
+	const isDesktop = window.innerWidth >= 640;
 	return (
 		<>
 			<VibeyBackground isBopping={isBopping} />
@@ -18,12 +19,14 @@ export const Portrait: React.FC<PortraitProps> = ({ isBopping }) => {
 				<Hero bop={isBopping} />
 				<ContactShadows position={[0, -2.4, 0]} blur={2} />
 			</Bounds>
-			<OrbitControls
-				makeDefault
-				enableZoom={false}
-				enablePan={false}
-				maxPolarAngle={Math.PI / 2}
-			/>
+			{isDesktop && (
+				<OrbitControls
+					makeDefault
+					enableZoom={false}
+					enablePan={false}
+					maxPolarAngle={Math.PI / 2}
+				/>
+			)}
 		</>
 	);
 };
