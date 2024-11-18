@@ -7,9 +7,23 @@ import { ScrollCard } from '../components/ScrollCard';
 import { ScrollChevron } from '../components/ScrollChevron';
 import { ScrollPage } from '../components/ScrollPage';
 
+export type PageKey = 'first' | 'second' | 'third';
+
+export interface PageOpacities {
+	first: number;
+	second: number;
+	third: number;
+	fourth: number;
+}
+
+export interface PageVisibility {
+	first: boolean;
+	second: boolean;
+	third: boolean;
+}
 export const HomeOverlay: React.FC = () => {
 	const scroll = useScroll();
-	const [showChevron, setShowChevron] = useState(false);
+
 	const [pageOpacities, setPageOpacities] = useState({
 		first: 1,
 		second: 1,
@@ -17,28 +31,54 @@ export const HomeOverlay: React.FC = () => {
 		fourth: 1
 	});
 
+	const [pageVisible, setPageVisible] = useState<PageVisibility>({
+		first: false,
+		second: false,
+		third: false
+	});
+
+	const [chevronVisible, setChevronVisible] = useState<PageVisibility>({
+		first: false,
+		second: false,
+		third: false
+	});
+
 	useEffect(() => {
-		const timer = setTimeout(() => setShowChevron(true), 4000);
-		return () => clearTimeout(timer);
-	}, []);
+		const CHEVRON_DELAY_MS = 3500;
+
+		Object.entries(pageVisible).forEach(([page, isVisible]) => {
+			const key = page as PageKey;
+			if (isVisible && !chevronVisible[key]) {
+				const timer = setTimeout(() => {
+					setChevronVisible((prev) => ({ ...prev, [page]: true }));
+				}, CHEVRON_DELAY_MS);
+				return () => clearTimeout(timer);
+			} else if (!isVisible) {
+				setChevronVisible((prev) => ({ ...prev, [key]: false }));
+			}
+		});
+	}, [pageVisible]);
 
 	useFrame(() => {
 		setPageOpacities({
 			first: 1 - scroll.range(0, 0.1),
 			second: scroll.curve(0.125, 0.25),
-			third: scroll.curve(0.4, 0.25),
-			fourth: scroll.range(0.75, 0.25)
+			third: scroll.curve(0.45, 0.25),
+			fourth: scroll.range(0.85, 0.15)
+		});
+		setPageVisible({
+			first: scroll.offset < 0.15,
+			second: scroll.offset >= 0.2 && scroll.offset < 0.4,
+			third: scroll.offset >= 0.45 && scroll.offset < 0.7
 		});
 	});
 
-	const resetChevronVisibility = () => {
-		setShowChevron(false);
-		setTimeout(() => setShowChevron(true), 4000);
-	};
-
-	const chevron_opacity = `mt-auto transition-opacity duration-1000 ease-in ${
-		showChevron ? 'opacity-100' : 'opacity-0'
-	}`;
+	const getChevronClassName = (page: PageKey) =>
+		`mt-auto transition-opacity duration-1000 ease-in ${
+			chevronVisible[page] && pageVisible[page]
+				? 'opacity-100'
+				: 'opacity-0'
+		}`;
 
 	return (
 		<Scroll html>
@@ -49,8 +89,7 @@ export const HomeOverlay: React.FC = () => {
 				>
 					<ScrollChevron
 						targetOffset={0.2}
-						onClick={resetChevronVisibility}
-						className={chevron_opacity}
+						className={getChevronClassName('first')}
 					/>
 				</ScrollPage>
 				<ScrollPage
@@ -61,8 +100,7 @@ export const HomeOverlay: React.FC = () => {
 					<div className={'mt-4 flex w-full justify-center sm:w-1/3'}>
 						<ScrollChevron
 							targetOffset={0.48}
-							onClick={resetChevronVisibility}
-							className={chevron_opacity}
+							className={getChevronClassName('second')}
 						/>
 					</div>
 				</ScrollPage>
@@ -74,8 +112,7 @@ export const HomeOverlay: React.FC = () => {
 					<div className={'mt-4 flex w-full justify-center sm:w-1/3'}>
 						<ScrollChevron
 							targetOffset={1}
-							onClick={resetChevronVisibility}
-							className={chevron_opacity}
+							className={getChevronClassName('third')}
 						/>
 					</div>
 				</ScrollPage>
