@@ -57,7 +57,7 @@ export const HomeOverlay: React.FC = () => {
 				setChevronVisible((prev) => ({ ...prev, [key]: false }));
 			}
 		});
-	}, [pageVisible]);
+	}, [pageVisible, chevronVisible]);
 
 	useFrame(() => {
 		setPageOpacities({
@@ -83,19 +83,13 @@ export const HomeOverlay: React.FC = () => {
 	return (
 		<Scroll html>
 			<div className='w-screen'>
-				<ScrollPage
-					alignment={'items-center'}
-					opacity={pageOpacities.first}
-				>
+				<ScrollPage align={'middle'} opacity={pageOpacities.first}>
 					<ScrollChevron
 						targetOffset={0.2}
 						className={getChevronClassName('first')}
 					/>
 				</ScrollPage>
-				<ScrollPage
-					alignment={'items-start'}
-					opacity={pageOpacities.second}
-				>
+				<ScrollPage align={'left'} opacity={pageOpacities.second}>
 					<IntroScrollCard />
 					<div className={'mt-4 flex w-full justify-center sm:w-1/3'}>
 						<ScrollChevron
@@ -104,10 +98,7 @@ export const HomeOverlay: React.FC = () => {
 						/>
 					</div>
 				</ScrollPage>
-				<ScrollPage
-					alignment={'items-end'}
-					opacity={pageOpacities.third}
-				>
+				<ScrollPage align={'right'} opacity={pageOpacities.third}>
 					<ToolkitScrollCard />
 					<div className={'mt-4 flex w-full justify-center sm:w-1/3'}>
 						<ScrollChevron
@@ -116,10 +107,7 @@ export const HomeOverlay: React.FC = () => {
 						/>
 					</div>
 				</ScrollPage>
-				<ScrollPage
-					alignment={'items-center'}
-					opacity={pageOpacities.fourth}
-				>
+				<ScrollPage align={'middle'} opacity={pageOpacities.fourth}>
 					<ContactScrollCard />
 				</ScrollPage>
 			</div>
@@ -129,11 +117,16 @@ export const HomeOverlay: React.FC = () => {
 
 const IntroScrollCard: React.FC = () => {
 	return (
-		<ScrollCard title={"Hi! I'm David 👋"}>
-			<p className=' text-white'>
-				Also known as DKatz. I'm an expert software architect with a
-				knack for solving business problems. Thanks for checking out my
-				little corner of the internet.
+		<ScrollCard
+			header={{
+				title: "Hi! I'm David 👋",
+				align: 'left'
+			}}
+		>
+			<p className='text-white'>
+				Also known as dkatz. I'm a full-stack engineer passionate about
+				building products on the frontier of artificial intelligence.
+				Thanks for checking out my little corner of the internet.
 			</p>
 		</ScrollCard>
 	);
@@ -142,9 +135,11 @@ const IntroScrollCard: React.FC = () => {
 const ToolkitScrollCard: React.FC = () => {
 	return (
 		<ScrollCard
-			title={'I build powerful software and write beautiful emails 🤗'}
+			header={{
+				title: 'I design cloud-native solutions and lead high-performing teams 🦾',
+				align: 'left'
+			}}
 		>
-			<p className='mb-2 text-white'>Here's my toolkit:</p>
 			<div className='flex flex-row flex-wrap items-center justify-center'>
 				<Icon
 					source={'python.png'}
@@ -177,6 +172,7 @@ const ToolkitScrollCard: React.FC = () => {
 					alt='Node.js'
 					url='https://nodejs.org/'
 				/>
+				<Icon source={'bun.png'} alt='Bun' url='https://bun.sh/' />
 				<Icon
 					source={'psql.png'}
 					alt='PostgreSQL'
@@ -209,8 +205,8 @@ const ToolkitScrollCard: React.FC = () => {
 
 const ContactScrollCard: React.FC = () => {
 	return (
-		<div className='flex h-full w-full items-center justify-center'>
-			<ScrollCard title={"Let's connect 🤝"}>
+		<div className='flex items-center justify-center'>
+			<ScrollCard header={{ title: "Let's connect 🤝", align: 'center' }}>
 				<div className='flex flex-row flex-wrap items-center justify-center'>
 					<Icon
 						source={'linkedin.png'}

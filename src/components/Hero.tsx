@@ -6,7 +6,7 @@ import {
 	Text,
 	useGLTF
 } from '@react-three/drei';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import React, { useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
@@ -38,7 +38,7 @@ export const Hero: React.FC<HeroProps> = ({ bop }) => {
 	// const [hovered, setHovered] = useState(false);
 
 	// Context hooks
-	const { gl } = useThree();
+	// const { gl } = useThree();
 	const { computeColor } = useVibe();
 	const { nodes } = useGLTF(heroPath) as HeroGLTF;
 
