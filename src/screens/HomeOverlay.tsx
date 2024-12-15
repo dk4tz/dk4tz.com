@@ -136,7 +136,7 @@ const ToolkitScrollCard: React.FC = () => {
 	return (
 		<ScrollCard
 			header={{
-				title: 'I design cloud-native solutions and lead high-performing teams 🦾',
+				title: 'I build cloud-native systems and lead high-performing teams 🦾',
 				align: 'left'
 			}}
 		>
