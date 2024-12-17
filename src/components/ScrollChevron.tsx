@@ -22,14 +22,14 @@ export const ScrollChevron: React.FC<ScrollChevronProps> = ({
 	const handleClick = (e: React.MouseEvent) => {
 		e.preventDefault();
 		if (scroll.el) {
-			console.log('scroll height: ', scroll.el.scrollHeight);
-			console.log('scroll.el ', scroll.pages);
+			// console.log('scroll height: ', scroll.el.scrollHeight);
+			// console.log('scroll.el ', scroll.pages);
 			scroll.el.scrollTo({
 				top: targetOffset * scroll.el.scrollHeight,
 				behavior: 'smooth'
 			});
 		}
-		onClick ? onClick() : console.log('Scrolling...');
+		// onClick ? onClick() : console.log('Scrolling...');
 	};
 
 	useFrame(() => {

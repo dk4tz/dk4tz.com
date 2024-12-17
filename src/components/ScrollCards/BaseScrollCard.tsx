@@ -1,4 +1,4 @@
-interface ScrollCardProps {
+interface BaseScrollCardProps {
 	children?: React.ReactNode;
 	header?: {
 		title: string;
@@ -6,7 +6,10 @@ interface ScrollCardProps {
 	};
 }
 
-export const ScrollCard: React.FC<ScrollCardProps> = ({ children, header }) => {
+export const BaseScrollCard: React.FC<BaseScrollCardProps> = ({
+	children,
+	header
+}) => {
 	const getHeaderAlignment = (align: 'center' | 'left' | 'right') => {
 		const baseClasses = 'text-2xl font-bold text-white text-center';
 

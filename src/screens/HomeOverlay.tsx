@@ -1,113 +1,181 @@
 import { Scroll, useScroll } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import React, { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 
-import { Icon } from '../components/Icon';
-import { ScrollCard } from '../components/ScrollCard';
+import {
+	ContactScrollCard,
+	IntroScrollCard,
+	ToolkitScrollCard
+} from '../components/ScrollCards';
 import { ScrollChevron } from '../components/ScrollChevron';
 import { ScrollPage } from '../components/ScrollPage';
 
-export type PageKey = 'first' | 'second' | 'third';
+const DEFAULT_CHEVRON_DELAY = 3000;
 
-export interface PageOpacities {
-	first: number;
-	second: number;
-	third: number;
-	fourth: number;
-}
+type ScrollSection = {
+	startFade: number;
+	fadeDuration: number;
+	appearAt: number;
+	disappearAt: number;
+	scrollTarget?: number;
+	chevronDelay?: number;
+};
 
-export interface PageVisibility {
-	first: boolean;
-	second: boolean;
-	third: boolean;
-}
-export const HomeOverlay: React.FC = () => {
+const scrollConfig: Record<string, ScrollSection> = {
+	intro: {
+		startFade: 0,
+		fadeDuration: 0.1,
+		appearAt: 0,
+		disappearAt: 0.15,
+		scrollTarget: 0.25,
+		chevronDelay: 5000
+	},
+	about: {
+		startFade: 0.15,
+		fadeDuration: 0.25,
+		appearAt: 0.2,
+		disappearAt: 0.4,
+		scrollTarget: 0.52
+	},
+	toolkit: {
+		startFade: 0.5,
+		fadeDuration: 0.25,
+		appearAt: 0.55,
+		disappearAt: 0.7,
+		scrollTarget: 1
+	},
+	contact: {
+		startFade: 0.85,
+		fadeDuration: 0.15,
+		appearAt: 0.85,
+		disappearAt: 1
+	}
+};
+
+type SectionName = keyof typeof scrollConfig;
+
+export const HomeOverlay = () => {
 	const scroll = useScroll();
-
-	const [pageOpacities, setPageOpacities] = useState({
-		first: 1,
-		second: 1,
-		third: 1,
-		fourth: 1
+	const [opacities, setOpacities] = useState<Record<SectionName, number>>({
+		intro: 1,
+		about: 1,
+		toolkit: 1,
+		contact: 1
 	});
 
-	const [pageVisible, setPageVisible] = useState<PageVisibility>({
-		first: false,
-		second: false,
-		third: false
+	const [visibleChevrons, setVisibleChevrons] = useState<
+		Record<SectionName, boolean>
+	>({
+		intro: false,
+		about: false,
+		toolkit: false,
+		contact: false
 	});
 
-	const [chevronVisible, setChevronVisible] = useState<PageVisibility>({
-		first: false,
-		second: false,
-		third: false
+	const sectionVisibleTimestamps = useRef<Record<SectionName, number>>({
+		intro: Date.now(),
+		about: 0,
+		toolkit: 0,
+		contact: 0
 	});
-
-	useEffect(() => {
-		const CHEVRON_DELAY_MS = 3500;
-
-		Object.entries(pageVisible).forEach(([page, isVisible]) => {
-			const key = page as PageKey;
-			if (isVisible && !chevronVisible[key]) {
-				const timer = setTimeout(() => {
-					setChevronVisible((prev) => ({ ...prev, [page]: true }));
-				}, CHEVRON_DELAY_MS);
-				return () => clearTimeout(timer);
-			} else if (!isVisible) {
-				setChevronVisible((prev) => ({ ...prev, [key]: false }));
-			}
-		});
-	}, [pageVisible, chevronVisible]);
 
 	useFrame(() => {
-		setPageOpacities({
-			first: 1 - scroll.range(0, 0.1),
-			second: scroll.curve(0.125, 0.25),
-			third: scroll.curve(0.45, 0.25),
-			fourth: scroll.range(0.85, 0.15)
+		const currentTime = Date.now();
+		const offset = scroll.offset;
+
+		setOpacities({
+			intro:
+				1 -
+				scroll.range(
+					scrollConfig.intro.startFade,
+					scrollConfig.intro.fadeDuration
+				),
+			about: scroll.curve(
+				scrollConfig.about.startFade,
+				scrollConfig.about.fadeDuration
+			),
+			toolkit: scroll.curve(
+				scrollConfig.toolkit.startFade,
+				scrollConfig.toolkit.fadeDuration
+			),
+			contact: scroll.range(
+				scrollConfig.contact.startFade,
+				scrollConfig.contact.fadeDuration
+			)
 		});
-		setPageVisible({
-			first: scroll.offset < 0.15,
-			second: scroll.offset >= 0.2 && scroll.offset < 0.4,
-			third: scroll.offset >= 0.45 && scroll.offset < 0.7
+
+		const currentVisibility = {
+			intro: offset < scrollConfig.intro.disappearAt,
+			about:
+				offset >= scrollConfig.about.appearAt &&
+				offset < scrollConfig.about.disappearAt,
+			toolkit:
+				offset >= scrollConfig.toolkit.appearAt &&
+				offset < scrollConfig.toolkit.disappearAt,
+			contact: true
+		};
+
+		Object.entries(currentVisibility).forEach(([section, isVisible]) => {
+			const sectionName: SectionName = section;
+			const delay =
+				scrollConfig[sectionName].chevronDelay ?? DEFAULT_CHEVRON_DELAY;
+
+			if (!isVisible) {
+				sectionVisibleTimestamps.current[sectionName] = 0;
+				setVisibleChevrons((prev) => ({
+					...prev,
+					[sectionName]: false
+				}));
+				return;
+			}
+
+			if (sectionVisibleTimestamps.current[sectionName] === 0) {
+				sectionVisibleTimestamps.current[sectionName] = currentTime;
+				setVisibleChevrons((prev) => ({
+					...prev,
+					[sectionName]: false
+				}));
+				return;
+			}
+
+			const timeSinceVisible =
+				currentTime - sectionVisibleTimestamps.current[sectionName];
+			setVisibleChevrons((prev) => ({
+				...prev,
+				[sectionName]: timeSinceVisible >= delay
+			}));
 		});
 	});
 
-	const getChevronClassName = (page: PageKey) =>
-		`mt-auto transition-opacity duration-1000 ease-in ${
-			chevronVisible[page] && pageVisible[page]
-				? 'opacity-100'
-				: 'opacity-0'
-		}`;
+	const getChevronProps = (section: SectionName) => ({
+		targetOffset: scrollConfig[section]?.scrollTarget,
+		className: `mt-auto transition-opacity duration-1000 ease-in ${
+			visibleChevrons[section] ? 'opacity-100' : 'opacity-0'
+		}`
+	});
 
 	return (
 		<Scroll html>
 			<div className='w-screen'>
-				<ScrollPage align={'middle'} opacity={pageOpacities.first}>
-					<ScrollChevron
-						targetOffset={0.2}
-						className={getChevronClassName('first')}
-					/>
+				<ScrollPage align='middle' opacity={opacities.intro}>
+					<ScrollChevron {...getChevronProps('intro')} />
 				</ScrollPage>
-				<ScrollPage align={'left'} opacity={pageOpacities.second}>
+
+				<ScrollPage align='left' opacity={opacities.about}>
 					<IntroScrollCard />
-					<div className={'mt-4 flex w-full justify-center sm:w-1/3'}>
-						<ScrollChevron
-							targetOffset={0.48}
-							className={getChevronClassName('second')}
-						/>
+					<div className='mt-4 flex w-full justify-center sm:w-1/3'>
+						<ScrollChevron {...getChevronProps('about')} />
 					</div>
 				</ScrollPage>
-				<ScrollPage align={'right'} opacity={pageOpacities.third}>
+
+				<ScrollPage align='right' opacity={opacities.toolkit}>
 					<ToolkitScrollCard />
-					<div className={'mt-4 flex w-full justify-center sm:w-1/3'}>
-						<ScrollChevron
-							targetOffset={1}
-							className={getChevronClassName('third')}
-						/>
+					<div className='mt-4 flex w-full justify-center sm:w-1/3'>
+						<ScrollChevron {...getChevronProps('toolkit')} />
 					</div>
 				</ScrollPage>
-				<ScrollPage align={'middle'} opacity={pageOpacities.fourth}>
+
+				<ScrollPage align='middle' opacity={opacities.contact}>
 					<ContactScrollCard />
 				</ScrollPage>
 			</div>
@@ -115,116 +183,4 @@ export const HomeOverlay: React.FC = () => {
 	);
 };
 
-const IntroScrollCard: React.FC = () => {
-	return (
-		<ScrollCard
-			header={{
-				title: "Hi! I'm David 👋",
-				align: 'left'
-			}}
-		>
-			<p className='text-white'>
-				Also known as dkatz. I'm a full-stack engineer passionate about
-				building products on the frontier of artificial intelligence.
-				Thanks for checking out my little corner of the internet.
-			</p>
-		</ScrollCard>
-	);
-};
-
-const ToolkitScrollCard: React.FC = () => {
-	return (
-		<ScrollCard
-			header={{
-				title: 'I build cloud-native systems and lead high-performing teams 🦾',
-				align: 'left'
-			}}
-		>
-			<div className='flex flex-row flex-wrap items-center justify-center'>
-				<Icon
-					source={'python.png'}
-					alt='Python'
-					url='https://www.python.org/'
-				/>
-				<Icon
-					source={'javascript.png'}
-					alt='JavaScript'
-					url='https://www.javascript.com/'
-				/>
-				<Icon
-					source={'aws.png'}
-					alt='Amazon Web Services'
-					url='https://aws.amazon.com/'
-				/>
-				<Icon
-					source={'azure.png'}
-					alt='Microsoft Azure'
-					url='https://azure.microsoft.com/'
-				/>
-				<Icon
-					source={'bash.png'}
-					alt='Bash'
-					url='https://www.gnu.org/software/bash/'
-				/>
-				<Icon source={'git.png'} alt='Git' url='https://git-scm.com/' />
-				<Icon
-					source={'node.png'}
-					alt='Node.js'
-					url='https://nodejs.org/'
-				/>
-				<Icon source={'bun.png'} alt='Bun' url='https://bun.sh/' />
-				<Icon
-					source={'psql.png'}
-					alt='PostgreSQL'
-					url='https://www.postgresql.org/'
-				/>
-				<Icon
-					source={'docker.png'}
-					alt='Docker'
-					url='https://www.docker.com/'
-				/>
-				<Icon
-					source={'react.png'}
-					alt='React'
-					url='https://react.dev/'
-				/>
-				<Icon
-					source={'html.png'}
-					alt='HTML5'
-					url='https://developer.mozilla.org/en-US/docs/Web/HTML'
-				/>
-				<Icon
-					source={'css.png'}
-					alt='CSS'
-					url='https://developer.mozilla.org/en-US/docs/Web/CSS'
-				/>
-			</div>
-		</ScrollCard>
-	);
-};
-
-const ContactScrollCard: React.FC = () => {
-	return (
-		<div className='flex items-center justify-center'>
-			<ScrollCard header={{ title: "Let's connect 🤝", align: 'center' }}>
-				<div className='flex flex-row flex-wrap items-center justify-center'>
-					<Icon
-						source={'linkedin.png'}
-						alt='LinkedIn'
-						url='https://www.linkedin.com/in/dk4tz/'
-					/>
-					<Icon
-						source={'github.png'}
-						alt='GitHub'
-						url='https://www.github.com/dk4tz'
-					/>
-					<Icon
-						source={'email.png'}
-						alt='Email'
-						url='mailto:hellodavidkatz@pm.me'
-					/>
-				</div>
-			</ScrollCard>
-		</div>
-	);
-};
+export default HomeOverlay;
